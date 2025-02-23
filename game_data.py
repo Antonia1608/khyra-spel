@@ -63,4 +63,47 @@ DOG_GAMES = [
         "difficulty": "Makkelijk",
         "type": "Herstel"
     }
+    {
+        "name": "Balspel met zachte bal",
+        "description": "Gooi zacht een zachte bal rond in huis en moedig de hond aan om de bal te pakken en terug te brengen",
+        "duration": "5-15 minuten", 
+        "difficulty": "Makkelijk",
+        "type": "Actief"
+    },
+    {
+        "name": "Snuffelmat",
+        "description": "Verstop kleine traktaties tussen de strengen van een gevlochten mat en laat de hond deze zoeken met neus en poten",
+        "duration": "15-30 minuten",
+        "difficulty": "Gemiddeld", 
+        "type": "Actief"
+    },
+    {
+        "name": "Puzzle voerbal",
+        "description": "Vul een bal met hondenbrokjes die alleen kunnen worden vrijgemaakt door de bal te rollen en te bewegen",
+        "duration": "15-30 minuten",
+        "difficulty": "Gemiddeld",
+        "type": "Actief"
+    },
+    {
+        "name": "Interactieve voerpuzzel",
+        "description": "Gebruik een puzzelbord met schuifjes en luiken waar traktaties achter verstopt zitten, waardoor de hond moet nadenken om ze te bemachtigen",
+        "duration": "30-60 minuten",
+        "difficulty": "Moeilijk",
+        "type": "Actief"
+    },
+    {
+        "name": "Verstop-en-zoek met objecten",
+        "description": "Leer de hond specifieke voorwerpen te herkennen en te vinden op commando, door ze in huis te verstoppen",
+        "duration": "30-60 minuten", 
+        "difficulty": "Moeilijk",
+        "type": "Actief"
+    },
+    {
+        "name": "Gestructureerde training",
+        "description": "Combineer meerdere commando's en vaardigheden in één training met verschillende attributen en uitdagingen",
+        "duration": "60+ minuten",
+        "difficulty": "Extra uitdagend",
+        "type": "Actief"
+    }
+]
 ]
