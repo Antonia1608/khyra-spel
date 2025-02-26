@@ -8,10 +8,13 @@ const durationSelect = document.getElementById('duration-select');
 const typeSelect = document.getElementById('type-select');
 const historyButton = document.getElementById('history-button');
 const historyList = document.getElementById('history-list');
-const historyModal = new bootstrap.Modal(document.getElementById('history-modal'));
+let historyModal;
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Bootstrap components
+    initializeBootstrapComponents();
+    
     // Load history from local storage if available
     loadHistory();
     
@@ -22,6 +25,21 @@ document.addEventListener('DOMContentLoaded', () => {
     generateButton.addEventListener('click', generateGame);
     historyButton.addEventListener('click', showHistory);
 });
+
+// Initialize Bootstrap components 
+function initializeBootstrapComponents() {
+    try {
+        // Initialize the modal
+        const modalElement = document.getElementById('history-modal');
+        if (modalElement) {
+            historyModal = new bootstrap.Modal(modalElement);
+        } else {
+            console.error('History modal element not found');
+        }
+    } catch (error) {
+        console.error('Error initializing Bootstrap components:', error);
+    }
+}
 
 // Generate a random game based on filters
 function generateGame() {
@@ -95,7 +113,13 @@ function saveGameToHistory(game) {
     // Try to load existing history
     const storedHistory = localStorage.getItem('gameHistory');
     if (storedHistory) {
-        history = JSON.parse(storedHistory);
+        try {
+            history = JSON.parse(storedHistory);
+        } catch (error) {
+            console.error('Error parsing stored history:', error);
+            // If parsing fails, start with an empty history
+            history = [];
+        }
     }
     
     // Add the new game to history
@@ -109,28 +133,46 @@ function saveGameToHistory(game) {
     history.push(gameEntry);
     
     // Save back to local storage
-    localStorage.setItem('gameHistory', JSON.stringify(history));
+    try {
+        localStorage.setItem('gameHistory', JSON.stringify(history));
+    } catch (error) {
+        console.error('Error saving history to local storage:', error);
+    }
 }
 
 // Load history from local storage
 function loadHistory() {
-    const storedHistory = localStorage.getItem('gameHistory');
-    if (!storedHistory) {
+    try {
+        const storedHistory = localStorage.getItem('gameHistory');
+        if (!storedHistory) {
+            return [];
+        }
+        
+        return JSON.parse(storedHistory);
+    } catch (error) {
+        console.error('Error loading history from local storage:', error);
         return [];
     }
-    
-    return JSON.parse(storedHistory);
 }
 
 // Show the history modal with all played games
 function showHistory() {
+    // Ensure modal is initialized
+    if (!historyModal) {
+        try {
+            initializeBootstrapComponents();
+        } catch (error) {
+            console.error('Error re-initializing modal:', error);
+        }
+    }
+    
     // Clear previous history items
     historyList.innerHTML = '';
     
     // Get history from local storage
     const history = loadHistory();
     
-    if (history.length === 0) {
+    if (!history || history.length === 0) {
         historyList.innerHTML = '<p class="text-center py-3">Nog geen spelletjes gespeeld</p>';
     } else {
         // Add history items in reverse order (newest first)
@@ -154,5 +196,21 @@ function showHistory() {
     }
     
     // Show the modal
-    historyModal.show();
+    try {
+        if (historyModal) {
+            historyModal.show();
+        } else {
+            // Fallback if modal object isn't available
+            const modalElement = document.getElementById('history-modal');
+            if (modalElement) {
+                const bsModal = new bootstrap.Modal(modalElement);
+                bsModal.show();
+            } else {
+                console.error('Cannot find history modal element');
+            }
+        }
+    } catch (error) {
+        console.error('Error showing history modal:', error);
+        alert('Er is een probleem met het weergeven van de geschiedenis. Probeer de pagina te vernieuwen.');
+    }
 }
