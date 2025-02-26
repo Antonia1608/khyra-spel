@@ -1,0 +1,170 @@
+/* Main Colors */
+:root {
+    --background-color: #fae8e6;
+    --card-color: #d7cb59;
+    --text-color: #c82848;
+    --button-color: #15babc;
+    --button-text-color: #ffffff;
+}
+
+body {
+    background-color: var(--background-color);
+    font-family: 'Book Antiqua', 'Palatino Linotype', Palatino, serif;
+    color: var(--text-color);
+    padding-bottom: 2rem;
+}
+
+/* Header and Image */
+h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.khyra-image {
+    max-width: 250px;
+    border: 3px solid var(--text-color);
+}
+
+/* Buttons */
+.btn-generate {
+    background-color: var(--button-color);
+    color: var(--button-text-color);
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+}
+
+.btn-generate:hover {
+    transform: scale(1.05);
+    background-color: var(--button-color);
+    color: var(--button-text-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-history {
+    background-color: var(--button-color);
+    color: var(--button-text-color);
+    float: right;
+    font-size: 1rem;
+    padding: 0.4rem 1rem;
+    border: none;
+    border-radius: 5px;
+}
+
+.btn-history:hover {
+    background-color: var(--button-color);
+    color: var(--button-text-color);
+    opacity: 0.9;
+}
+
+/* Cards */
+.game-card, .filter-card {
+    background-color: var(--card-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 3px solid var(--card-color);
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.game-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.game-description, .game-info {
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+/* Form elements */
+.form-label {
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.form-select {
+    background-color: var(--card-color);
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+}
+
+.form-select:focus {
+    border-color: var(--button-color);
+    box-shadow: 0 0 0 0.25rem rgba(21, 186, 188, 0.25);
+}
+
+/* Tip */
+.tip-container {
+    padding: 1rem;
+}
+
+.tip {
+    font-style: italic;
+    color: var(--text-color);
+}
+
+/* Modal */
+.modal-content {
+    background-color: var(--background-color);
+}
+
+.modal-header {
+    border-bottom-color: var(--text-color);
+}
+
+.modal-title {
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    border-bottom: 1px solid rgba(200, 40, 72, 0.2);
+}
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+.history-game {
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.history-date {
+    font-style: italic;
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+        margin-top: 1rem;
+    }
+    
+    .khyra-image {
+        max-width: 200px;
+        margin-bottom: 1rem;
+    }
+    
+    .btn-generate {
+        display: block;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+}
