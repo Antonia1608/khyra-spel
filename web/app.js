@@ -8,12 +8,25 @@ const durationSelect = document.getElementById('duration-select');
 const typeSelect = document.getElementById('type-select');
 const historyButton = document.getElementById('history-button');
 const historyList = document.getElementById('history-list');
+const historyModalElement = document.getElementById('history-modal');
 let historyModal;
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Bootstrap components
-    initializeBootstrapComponents();
+    console.log("App initializing...");
+    
+    // Try to initialize Bootstrap components
+    try {
+        // First check if bootstrap is available
+        if (typeof bootstrap !== 'undefined') {
+            console.log("Bootstrap found, initializing modal");
+            historyModal = new bootstrap.Modal(historyModalElement);
+        } else {
+            console.warn("Bootstrap not found, will use manual modal handling");
+        }
+    } catch (error) {
+        console.error("Error initializing bootstrap components:", error);
+    }
     
     // Load history from local storage if available
     loadHistory();
@@ -24,20 +37,73 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listeners
     generateButton.addEventListener('click', generateGame);
     historyButton.addEventListener('click', showHistory);
+    
+    // Add close functionality for the modal's close button
+    const closeButtons = document.querySelectorAll('[data-bs-dismiss="modal"]');
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            closeHistoryModal();
+        });
+    });
+    
+    // Add click outside functionality
+    window.addEventListener('click', (event) => {
+        if (event.target === historyModalElement) {
+            closeHistoryModal();
+        }
+    });
+    
+    console.log("App initialization complete");
 });
 
-// Initialize Bootstrap components 
-function initializeBootstrapComponents() {
+// Manual function to show modal
+function showHistoryModal() {
+    console.log("Showing history modal");
     try {
-        // Initialize the modal
-        const modalElement = document.getElementById('history-modal');
-        if (modalElement) {
-            historyModal = new bootstrap.Modal(modalElement);
+        if (historyModal) {
+            // If bootstrap is available, use it
+            historyModal.show();
         } else {
-            console.error('History modal element not found');
+            // Manual fallback
+            historyModalElement.classList.add('show');
+            historyModalElement.style.display = 'block';
+            document.body.classList.add('modal-open');
+            
+            // Add backdrop if it doesn't exist
+            let backdrop = document.querySelector('.modal-backdrop');
+            if (!backdrop) {
+                backdrop = document.createElement('div');
+                backdrop.className = 'modal-backdrop fade show';
+                document.body.appendChild(backdrop);
+            }
         }
     } catch (error) {
-        console.error('Error initializing Bootstrap components:', error);
+        console.error("Error showing modal:", error);
+        alert("Er is een probleem met het tonen van de geschiedenis. Probeer de pagina te vernieuwen.");
+    }
+}
+
+// Manual function to close modal
+function closeHistoryModal() {
+    console.log("Closing history modal");
+    try {
+        if (historyModal) {
+            // If bootstrap is available, use it
+            historyModal.hide();
+        } else {
+            // Manual fallback
+            historyModalElement.classList.remove('show');
+            historyModalElement.style.display = 'none';
+            document.body.classList.remove('modal-open');
+            
+            // Remove backdrop
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) {
+                backdrop.remove();
+            }
+        }
+    } catch (error) {
+        console.error("Error closing modal:", error);
     }
 }
 
@@ -157,20 +223,14 @@ function loadHistory() {
 
 // Show the history modal with all played games
 function showHistory() {
-    // Ensure modal is initialized
-    if (!historyModal) {
-        try {
-            initializeBootstrapComponents();
-        } catch (error) {
-            console.error('Error re-initializing modal:', error);
-        }
-    }
+    console.log("Show history button clicked");
     
     // Clear previous history items
     historyList.innerHTML = '';
     
     // Get history from local storage
     const history = loadHistory();
+    console.log("Loaded history:", history);
     
     if (!history || history.length === 0) {
         historyList.innerHTML = '<p class="text-center py-3">Nog geen spelletjes gespeeld</p>';
@@ -196,21 +256,5 @@ function showHistory() {
     }
     
     // Show the modal
-    try {
-        if (historyModal) {
-            historyModal.show();
-        } else {
-            // Fallback if modal object isn't available
-            const modalElement = document.getElementById('history-modal');
-            if (modalElement) {
-                const bsModal = new bootstrap.Modal(modalElement);
-                bsModal.show();
-            } else {
-                console.error('Cannot find history modal element');
-            }
-        }
-    } catch (error) {
-        console.error('Error showing history modal:', error);
-        alert('Er is een probleem met het weergeven van de geschiedenis. Probeer de pagina te vernieuwen.');
-    }
+    showHistoryModal();
 }
